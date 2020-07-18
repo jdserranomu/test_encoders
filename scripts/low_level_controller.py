@@ -131,11 +131,6 @@ def controlBajoNivel():
     apagar()
 
 
-def handle_iniciar_encoders(req):
-    global empezar
-    empezar = True
-    return []
-
 
 def calcularVelocidadRuedas():
     global velActA, velActB, refContadorA, refContadorB, refTiempo
@@ -297,8 +292,9 @@ if __name__ == '__main__':
             try:
                 velRefA = float(sys.argv[1])
                 velRefB = float(sys.argv[2])
+                print velRefA, velRefB
             except ValueError:
                 pass
-        controlBajoNivel()
+        # controlBajoNivel()
     except rospy.ROSInterruptException:
         pass
