@@ -112,10 +112,10 @@ def flank_B(channel):
 
 if __name__ == '__main__':
     try:
-        if len(sys.argv) == 1:
+        if len(sys.argv) == 2:
             try:
                 duty_cycle = float(sys.argv[1])
-                if duty_cycle < 100 or duty_cycle > 100:
+                if duty_cycle < -duty_cycle_sat or duty_cycle > duty_cycle_sat:
                     print("Argument out o bounds")
                     duty_cycle = 10
             except ValueError:
