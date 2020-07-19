@@ -4,10 +4,10 @@ import RPi.GPIO as GPIO
 import time
 import math
 import sys
-from std_msgs.msg import Float32MultiArray
+import numpy as np
 
 # Es la tasa en Hertz (Hz) del nodo.
-h = 10
+h = 50
 # Variable con el primer pin que va al driver para controlar el motor A.
 pin_driver1 = 32
 # Variable con el segundo pin que va al driver para controlar el motor A.
@@ -32,7 +32,6 @@ r = (29.3/2)
 
 
 def set_pins():
-    global pwm_driver1, pwm_driver2
     # Configurandp estructura de pins de raspberry
     GPIO.setmode(GPIO.BOARD)
     # Configurando los pines de salida para el driver
@@ -53,14 +52,18 @@ def test_driver_encoder():
     set_pins()
     if duty_cycle >= 0:
         pwm_driver = GPIO.PWM(pin_driver1, fDriver)
-        pwm_driver.start(abs(duty_cycle))
+        # pwm_driver.start(abs(duty_cycle))
     else:
         pwm_driver = GPIO.PWM(pin_driver2, fDriver)
-        pwm_driver.start(abs(duty_cycle))
+        # pwm_driver.start(abs(duty_cycle))
+    start_time = time.time()
     while not rospy.is_shutdown():
+        if time.time()-start_time >= 10:
+            pwm_driver.start(abs(duty_cycle))
         speed = measure_speed()
-        print("Speed: " + str(speed) + " m/s")
+        print("Speed: " + str(speed) + " mm/s")
         rate.sleep()
+    print("Stopped")
     pwm_driver.stop()
     shutdown()
 
