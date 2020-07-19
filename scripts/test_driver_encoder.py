@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 import time
 import math
 import sys
-import numpy as np
+import csv
 
 # Es la tasa en Hertz (Hz) del nodo.
 h = 50
@@ -24,7 +24,7 @@ pin_encoderB = 16
 counter = 0
 # Variable referencia contador ultimo calculo
 reference_counter = 0
-reference_time = time.time()
+reference_time = 0
 # Variable de saturacion maxima de ciclo util
 duty_cycle_sat = 60
 # Radio rueda en mm
@@ -32,6 +32,7 @@ r = (29.3/2)
 
 
 def set_pins():
+    global reference_time
     # Configurandp estructura de pins de raspberry
     GPIO.setmode(GPIO.BOARD)
     # Configurando los pines de salida para el driver
@@ -42,6 +43,7 @@ def set_pins():
     GPIO.setup(pin_encoderB, GPIO.IN)
     # Configurando senales de salida para el driver e inicializandolas en ciclo util de 0
     # Detectar flancos en otros metodos
+    reference_time = time.time()
     GPIO.add_event_detect(pin_encoderA, GPIO.BOTH, callback=flank_A)
     GPIO.add_event_detect(pin_encoderB, GPIO.BOTH, callback=flank_B)
 
@@ -56,13 +58,21 @@ def test_driver_encoder():
     else:
         pwm_driver = GPIO.PWM(pin_driver2, fDriver)
         # pwm_driver.start(abs(duty_cycle))
+    data = [["time (s)", "speed (mm/s)", "duty cycle (%)"]]
     start_time = time.time()
+    actual_duty_cycle=0
     while not rospy.is_shutdown():
         if time.time()-start_time >= 10:
             pwm_driver.start(abs(duty_cycle))
+            actual_duty_cycle = duty_cycle
         speed = measure_speed()
-        print("Speed: " + str(speed) + " mm/s")
+        data.append([reference_time-start_time, speed, actual_duty_cycle])
+        # print("Speed: " + str(speed) + " mm/s")
         rate.sleep()
+    print(data[0:3])
+    with open('data.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(data)
     print("Stopped")
     pwm_driver.stop()
     shutdown()
