@@ -295,6 +295,6 @@ if __name__ == '__main__':
                 print velRefA, velRefB
             except ValueError:
                 pass
-        # controlBajoNivel()
+        controlBajoNivel()
     except rospy.ROSInterruptException:
         pass
