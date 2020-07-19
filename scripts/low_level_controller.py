@@ -22,13 +22,13 @@ fDriver = 500
 cicloADriver = 0
 # Ciclo util del pulso para el motor B. Un numero entre 0 y 100.
 cicloBDriver = 0
-# Variable con el pin que va del encoder con la senal A
+# Variable con el pin que va del encoder con la senal A1
 pwmA1Encoder = 35
-# Variable con el pin que va del encoder con la senal A
+# Variable con el pin que va del encoder con la senal B1
 pwmB1Encoder = 36
-# Variable con el pin que va del encoder con la senal A
+# Variable con el pin que va del encoder con la senal A2
 pwmA2Encoder = 37
-# Variable con el pin que va del encoder con la senal A
+# Variable con el pin que va del encoder con la senal B2
 pwmB2Encoder = 38
 # radio de la rueda
 radioRueda = 14.65  # milimetros
@@ -197,7 +197,6 @@ def aplicarControlBajoNivel(time):
             pwmB = satCicloUtil
         if refAccionControlB<0:
             pwmB = 0
-
         pB1.stop()
         GPIO.output(pwmB1Driver, 0)
         pB2.start(0)
