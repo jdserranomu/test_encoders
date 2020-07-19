@@ -79,7 +79,6 @@ satCicloUtil = 60
 errorAnteriorA = 0
 errorAnteriorB = 0
 
-empezar = False
 
 def setPins():
     global pA1, pA2, pB1, pB2
@@ -197,19 +196,20 @@ def aplicarControlBajoNivel(time):
             pwmB = satCicloUtil
         if refAccionControlB<0:
             pwmB = 0
-        pB2.stop ()
-        GPIO.output (pwmB2Driver, 0)
-        pB1.start (0)
-        pB1.ChangeDutyCycle (pwmB)
+
+        pB1.stop()
+        GPIO.output(pwmB1Driver, 0)
+        pB2.start(0)
+        pB2.ChangeDutyCycle(abs(pwmB))
     else:
         if pwmB < -satCicloUtil:
             pwmB = -satCicloUtil
         if refAccionControlB > 0:
             pwmB = 0
-        pB1.stop ()
-        GPIO.output (pwmB1Driver, 0)
-        pB2.start (0)
-        pB2.ChangeDutyCycle (abs(pwmB))
+        pB2.stop()
+        GPIO.output(pwmB2Driver, 0)
+        pB1.start(0)
+        pB1.ChangeDutyCycle(pwmB)
     refAccionControlA = pwmA
     refAccionControlB = pwmB
 
@@ -292,7 +292,7 @@ if __name__ == '__main__':
             try:
                 velRefA = float(sys.argv[1])
                 velRefB = float(sys.argv[2])
-                print velRefA, velRefB
+                print("Velocidad inicial rueda A:" + str(velRefA), "Velocidad inicial rueda B:" + str(velRefB))
             except ValueError:
                 pass
         controlBajoNivel()
