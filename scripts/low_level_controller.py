@@ -125,7 +125,7 @@ def controlBajoNivel():
         aplicarControlBajoNivel(time)
         pubVelsAct.data = [velActA, velActB]
         pub.publish(pubVelsAct)
-        print("Velocidad A: "+str(velActA)+ " m/s")
+        print("Velocidad A: " + str(velActA) + " m/s")
         print("Velocidad B: " + str(velActB) + " m/s")
         rate.sleep()
     apagar()
@@ -182,7 +182,7 @@ def aplicarControlBajoNivel(time):
         pA2.stop()
         GPIO.output (pwmA2Driver, 0)
         pA1.start (0)
-        pA1.ChangeDutyCycle(pwmA)
+        pA1.ChangeDutyCycle(abs(pwmA))
     else:
         if pwmA < -satCicloUtil:
             pwmA = -satCicloUtil
@@ -210,7 +210,7 @@ def aplicarControlBajoNivel(time):
         pB2.stop()
         GPIO.output(pwmB2Driver, 0)
         pB1.start(0)
-        pB1.ChangeDutyCycle(pwmB)
+        pB1.ChangeDutyCycle(abs(pwmB))
     refAccionControlA = pwmA
     refAccionControlB = pwmB
 
