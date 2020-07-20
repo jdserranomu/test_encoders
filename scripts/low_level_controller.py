@@ -151,28 +151,30 @@ def aplicarControlBajoNivel(time):
     errorA = velRefA - velActA
     errorB = velRefB - velActB
     integradorA.append(errorA)
-    integradorA = integradorA[-10:]
+    integradorA = integradorA[-100:]
     integradorB.append(errorB)
-    integradorB = integradorB[-10:]
+    integradorB = integradorB[-100:]
     integralA = sum(integradorA) * time
     integralB = sum(integradorB) * time
     derivadaErrorA = (errorA-errorAnteriorA)/time
     derivadaErrorB = (errorB-errorAnteriorB)/time
     errorAnteriorA = errorA
     errorAnteriorB = errorB
-    errorSignalA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
-    errorSignalB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
-    if abs(errorSignalA) < .1:
-        errorSignalA = 0
-    if abs(errorSignalB) < .1:
-        errorSignalB = 0
-    pwmA = pwmA + errorSignalA
-    pwmB = pwmB + errorSignalB
+    # errorSignalA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
+    # errorSignalB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
+    # if abs(errorSignalA) < .1:
+        # errorSignalA = 0
+    # if abs(errorSignalB) < .1:
+        # errorSignalB = 0
+    pwmA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
+    pwmB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
+    # pwmA = pwmA + errorSignalA
+    # pwmB = pwmB + errorSignalB
     # pwmA = velActA * (10/(math.pi*radioRueda))+errorSignalA
     # pwmB = velActB * (10/(math.pi*radioRueda))+errorSignalB
-    if velRefA == 0:
+    if velRefA == 0 or abs(pwmA) < 1:
         pwmA = 0
-    if velRefB == 0:
+    if velRefB == 0 or abs(pwmB) < 1:
         pwmB = 0
     if pwmA >= 0:
         if pwmA > satCicloUtil:
@@ -180,8 +182,8 @@ def aplicarControlBajoNivel(time):
         if refAccionControlA < 0:
             pwmA = 0
         pA2.stop()
-        GPIO.output (pwmA2Driver, 0)
-        pA1.start (0)
+        GPIO.output(pwmA2Driver, 0)
+        pA1.start(0)
         pA1.ChangeDutyCycle(abs(pwmA))
     else:
         if pwmA < -satCicloUtil:
@@ -195,7 +197,7 @@ def aplicarControlBajoNivel(time):
     if pwmB >= 0:
         if pwmB > satCicloUtil:
             pwmB = satCicloUtil
-        if refAccionControlB<0:
+        if refAccionControlB < 0:
             pwmB = 0
         pB1.stop()
         GPIO.output(pwmB1Driver, 0)
@@ -218,6 +220,7 @@ def handle_velocidad_deseada(vel):
     global velRefA, velRefB
     velRefA = vel.data[0]
     velRefB = vel.data[1]
+
 
 def apagar():
     global cicloADriver, cicloBDriver
