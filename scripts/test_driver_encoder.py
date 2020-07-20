@@ -70,7 +70,7 @@ def test_driver_encoder():
         # print("Speed: " + str(speed) + " mm/s")
         rate.sleep()
     # print(data[0:3])
-    with open('data.csv', 'w', newline='') as file:
+    with open('data.csv', 'w') as file:
         writer = csv.writer(file)
         writer.writerows(data)
     print("Stopped")
