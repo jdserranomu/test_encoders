@@ -17,7 +17,7 @@ pwmB1Driver = 15
 # Variable con el segundo pin que va al driver para controlar el motor B.
 pwmB2Driver = 16
 # Frecuencia en Hertz (Hz) de la senal de pulso que controla el motor.
-fDriver = 500
+freq_driver = 500
 # Ciclo util del pulso para el motor A. Un numero entre 0 y 100.
 cicloADriver = 0
 # Ciclo util del pulso para el motor B. Un numero entre 0 y 100.
@@ -95,13 +95,13 @@ def setPins():
     GPIO.setup(pwmA2Encoder, GPIO.IN)
     GPIO.setup(pwmB2Encoder, GPIO.IN)
     # Configurando senales de salida para el driver e inicializandolas en ciclo util de 0
-    pA1 = GPIO.PWM(pwmA1Driver, fDriver)
+    pA1 = GPIO.PWM(pwmA1Driver, freq_driver)
     GPIO.output(pwmA1Driver, 0)
-    pA2 = GPIO.PWM(pwmA2Driver, fDriver)
+    pA2 = GPIO.PWM(pwmA2Driver, freq_driver)
     GPIO.output(pwmA2Driver, 0)
-    pB1 = GPIO.PWM(pwmB1Driver, fDriver)
+    pB1 = GPIO.PWM(pwmB1Driver, freq_driver)
     GPIO.output(pwmB1Driver, 0)
-    pB2 = GPIO.PWM(pwmB2Driver, fDriver)
+    pB2 = GPIO.PWM(pwmB2Driver, freq_driver)
     GPIO.output(pwmB2Driver, 0)
     # Detectar flancos en otros metodos
     GPIO.add_event_detect(pwmA1Encoder, GPIO.BOTH, callback=sumarFlancoA1)
