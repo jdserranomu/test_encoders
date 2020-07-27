@@ -18,10 +18,6 @@ pwmB1Driver = 15
 pwmB2Driver = 16
 # Frecuencia en Hertz (Hz) de la senal de pulso que controla el motor.
 freq_driver = 500
-# Ciclo util del pulso para el motor A. Un numero entre 0 y 100.
-cicloADriver = 0
-# Ciclo util del pulso para el motor B. Un numero entre 0 y 100.
-cicloBDriver = 0
 # Variable con el pin que va del encoder con la senal A1
 pwmA1Encoder = 35
 # Variable con el pin que va del encoder con la senal B1
@@ -56,12 +52,12 @@ calculando = False
 # Radio de las llantas en metros
 r = (29.3/2)
 # Variables de control PI
-kpA = 0.2 #Antes 0.2
-kiA = 0.000001
-kdA = 0.01
-kpB = 0.4 #Antes 0.2
-kiB = 0.000001
-kdB = 0.01
+kpA = 0.44 #Antes 0.2
+kiA = 25
+kdA = 0.004
+kpB = 0.42 #Antes 0.2
+kiB = 25
+kdB = 0.004
 # Acumulacion de error para integrador
 integradorA = []
 integradorB = []
@@ -118,8 +114,6 @@ def controlBajoNivel():
     pub = rospy.Publisher('actual_velocity', Float32MultiArray, queue_size=10)
     rate = rospy.Rate(h)
     setPins()
-    pA1.ChangeDutyCycle(cicloADriver)
-    pB1.ChangeDutyCycle(cicloBDriver)
     while not rospy.is_shutdown():
         time = calcularVelocidadRuedas()
         aplicarControlBajoNivel(time)
@@ -160,18 +154,10 @@ def aplicarControlBajoNivel(time):
     derivadaErrorB = (errorB-errorAnteriorB)/time
     errorAnteriorA = errorA
     errorAnteriorB = errorB
-    # errorSignalA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
-    # errorSignalB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
-    # if abs(errorSignalA) < .1:
-        # errorSignalA = 0
-    # if abs(errorSignalB) < .1:
-        # errorSignalB = 0
+
     pwmA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
     pwmB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
-    # pwmA = pwmA + errorSignalA
-    # pwmB = pwmB + errorSignalB
-    # pwmA = velActA * (10/(math.pi*radioRueda))+errorSignalA
-    # pwmB = velActB * (10/(math.pi*radioRueda))+errorSignalB
+    
     if velRefA == 0 or abs(pwmA) < 1:
         pwmA = 0
     if velRefB == 0 or abs(pwmB) < 1:
@@ -223,9 +209,9 @@ def handle_velocidad_deseada(vel):
 
 
 def apagar():
-    global cicloADriver, cicloBDriver
-    cicloADriver = 0
-    cicloBDriver = 0
+    global pwmA, pwmB
+    pwmA = 0
+    pwmB = 0
     GPIO.output(pwmA1Driver, 0)
     GPIO.output(pwmA2Driver, 0)
     GPIO.output(pwmB1Driver, 0)

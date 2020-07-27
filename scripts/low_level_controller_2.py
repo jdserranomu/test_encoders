@@ -18,10 +18,6 @@ pinDriverB1 = 15
 pinDriverB2 = 16
 # Frecuencia en Hertz (Hz) de la senal de pulso que controla el motor.
 freq_driver = 500
-# Ciclo util del pulso para el motor A. Un numero entre 0 y 100.
-dutyCycleDriverA = 0
-# Ciclo util del pulso para el motor B. Un numero entre 0 y 100.
-dutyCycleDriverB = 0
 # Variable con el pin que va del encoder con la senal A1
 pinEncoderA1 = 35
 # Variable con el pin que va del encoder con la senal B1
@@ -52,12 +48,12 @@ referenceControlActionB = 0
 dutyCyclePwmA = 0
 dutyCyclePwmB = 0
 # Variables de control PI
-kpA = 0.2 #Antes 0.2
-kiA = 0.000001
-kdA = 0.01
-kpB = 0.4 #Antes 0.2
-kiB = 0.000001
-kdB = 0.01
+kpA = 0.44 #Antes 0.2
+kiA = 25
+kdA = 0.004
+kpB = 0.42 #Antes 0.2
+kiB = 25
+kdB = 0.004
 # Acumulacion de error para integrador
 integrandA = []
 integrandB = []
@@ -105,7 +101,7 @@ def setPins():
     GPIO.add_event_detect(pinEncoderB2, GPIO.BOTH, callback=flankB2)
 
 
-def controlBajoNivel():
+def lowLevelControl():
     global messageCurrentSpeedPublisher
     rospy.init_node('low_level_controller', anonymous=True)
     rospy.Subscriber('desired_speed', Float32MultiArray, handleDesiredSpeed)
@@ -122,73 +118,64 @@ def controlBajoNivel():
 
 
 def applyLowLevelControl(time):
-    global integrandA, integrandB, pwmDriverA1, pwmDriverA2, pwmDriverB1, pwmDriverB2, referenceControlActionA, referenceControlActionB, dut, pwmB, errorAnteriorA, errorAnteriorB
-    errorA = velRefA - velActA
-    errorB = velRefB - velActB
-    integradorA.append(errorA)
-    integradorA = integradorA[-100:]
-    integradorB.append(errorB)
-    integradorB = integradorB[-100:]
-    integralA = sum(integradorA) * time
-    integralB = sum(integradorB) * time
-    derivadaErrorA = (errorA-errorAnteriorA)/time
-    derivadaErrorB = (errorB-errorAnteriorB)/time
-    errorAnteriorA = errorA
-    errorAnteriorB = errorB
-    # errorSignalA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
-    # errorSignalB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
-    # if abs(errorSignalA) < .1:
-        # errorSignalA = 0
-    # if abs(errorSignalB) < .1:
-        # errorSignalB = 0
-    pwmA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
-    pwmB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
-    # pwmA = pwmA + errorSignalA
-    # pwmB = pwmB + errorSignalB
-    # pwmA = velActA * (10/(math.pi*radioRueda))+errorSignalA
-    # pwmB = velActB * (10/(math.pi*radioRueda))+errorSignalB
-    if velRefA == 0:
-        pwmA = 0
-    if velRefB == 0:
-        pwmB = 0
-    if pwmA >= 0:
-        if pwmA > satCicloUtil:
-            pwmA = satCicloUtil
-        if refAccionControlA < 0:
-            pwmA = 0
-        pA2.stop()
-        GPIO.output (pwmA2Driver, 0)
-        pA1.start (0)
-        pA1.ChangeDutyCycle(abs(pwmA))
+    global pwmDriverA1, pwmDriverA2, pwmDriverB1, pwmDriverB2, referenceControlActionA, referenceControlActionB
+    global integrandA, integrandB, lastErrorA, lastErrorB, dutyCyclePwmA, dutyCyclePwmB
+    errorA = desiredSpeedA - currentSpeedA
+    errorB = desiredSpeedB - currentSpeedB
+    integrandA.append(errorA)
+    integrandA = integrandA[-1000:]
+    integrandB.append(errorB)
+    integrandB = integrandB[-1000:]
+    integralA = sum(integrandA) * time
+    integralB = sum(integrandB) * time
+    derivativeErrorA = (errorA-lastErrorA)/time
+    derivativeErrorB = (errorB-lastErrorB)/time
+    lastErrorA = errorA
+    lastErrorB = errorB
+    dutyCyclePwmA = kpA * errorA + kiA * integralA + kdA * derivativeErrorA
+    dutyCyclePwmB = kpB * errorB + kiB * integralB + kdB * derivativeErrorB
+    if desiredSpeedA == 0:
+        dutyCyclePwmA = 0
+    if desiredSpeedB == 0:
+        dutyCyclePwmB = 0
+    if dutyCyclePwmA >= 0:
+        if dutyCyclePwmA > dutyCycleSaturation:
+            dutyCyclePwmA = dutyCycleSaturation
+        if referenceControlActionA < 0:
+            dutyCyclePwmA = 0
+        pwmDriverA2.stop()
+        GPIO.output(pinDriverA2, 0)
+        pwmDriverA1.start(0)
+        pwmDriverA1.ChangeDutyCycle(dutyCyclePwmA)
     else:
-        if pwmA < -satCicloUtil:
-            pwmA = -satCicloUtil
-        if refAccionControlA > 0:
-            pwmA = 0
-        pA1.stop ()
-        GPIO.output (pwmA1Driver, 0)
-        pA2.start (0)
-        pA2.ChangeDutyCycle (abs(pwmA))
-    if pwmB >= 0:
-        if pwmB > satCicloUtil:
-            pwmB = satCicloUtil
-        if refAccionControlB<0:
-            pwmB = 0
-        pB1.stop()
-        GPIO.output(pwmB1Driver, 0)
-        pB2.start(0)
-        pB2.ChangeDutyCycle(abs(pwmB))
+        if dutyCyclePwmA < -dutyCycleSaturation:
+            dutyCyclePwmA = -dutyCycleSaturation
+        if referenceControlActionA > 0:
+            dutyCyclePwmA = 0
+        pwmDriverA1.stop()
+        GPIO.output(pinDriverA1, 0)
+        pwmDriverA2.start(0)
+        pwmDriverA2.ChangeDutyCycle(abs(dutyCyclePwmA))
+    if dutyCyclePwmB >= 0:
+        if dutyCyclePwmB > dutyCycleSaturation:
+            dutyCyclePwmB = dutyCycleSaturation
+        if referenceControlActionB < 0:
+            dutyCyclePwmB = 0
+        pwmDriverB1.stop()
+        GPIO.output(pinDriverB1, 0)
+        pwmDriverB2.start(0)
+        pwmDriverB2.ChangeDutyCycle(dutyCyclePwmB)
     else:
-        if pwmB < -satCicloUtil:
-            pwmB = -satCicloUtil
-        if refAccionControlB > 0:
-            pwmB = 0
-        pB2.stop()
-        GPIO.output(pwmB2Driver, 0)
-        pB1.start(0)
-        pB1.ChangeDutyCycle(abs(pwmB))
-    refAccionControlA = pwmA
-    refAccionControlB = pwmB
+        if dutyCyclePwmB < -dutyCycleSaturation:
+            dutyCyclePwmB = -dutyCycleSaturation
+        if referenceControlActionB > 0:
+            dutyCyclePwmB = 0
+        pwmDriverB2.stop()
+        GPIO.output(pinDriverB2, 0)
+        pwmDriverB1.start(0)
+        pwmDriverB1.ChangeDutyCycle(abs(dutyCyclePwmB))
+    referenceControlActionA = dutyCyclePwmA
+    referenceControlActionB = dutyCyclePwmB
 
 
 def measureWheelsSpeed():
@@ -287,6 +274,6 @@ if __name__ == '__main__':
                 print("Velocidad inicial rueda A:" + str(desiredSpeedA), "Velocidad inicial rueda B:" + str(desiredSpeedB))
             except ValueError:
                 pass
-        lowLevelController()
+        lowLevelControl()
     except rospy.ROSInterruptException:
         pass
