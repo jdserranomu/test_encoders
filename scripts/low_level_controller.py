@@ -119,8 +119,8 @@ def controlBajoNivel():
         aplicarControlBajoNivel(time)
         pubVelsAct.data = [velActA, velActB]
         pub.publish(pubVelsAct)
-        print("Velocidad A: " + str(velActA) + " m/s")
-        print("Velocidad B: " + str(velActB) + " m/s")
+        print("Velocidad A: " + str(velActA) + " mm/s")
+        print("Velocidad B: " + str(velActB) + " mm/s")
         rate.sleep()
     apagar()
 
