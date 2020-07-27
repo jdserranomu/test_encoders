@@ -9,17 +9,17 @@ import csv
 # Es la tasa en Hertz (Hz) del nodo.
 h = 50
 # Variable con el primer pin que va al driver para controlar el motor A.
-pin_driver1 = 32
+pin_driver1 = 11
 # Variable con el segundo pin que va al driver para controlar el motor A.
-pin_driver2 = 33
+pin_driver2 = 12
 # Frecuencia en Hertz (Hz) de la senal de pulso que controla el motor.
 fDriver = 500
 # Ciclo util del pulso para el motor A. Un numero entre 0 y 100.
 duty_cycle = 0
 # Variable con el pin que va del encoder con la senal A1
-pin_encoderA = 15
+pin_encoderA = 35
 # Variable con el pin que va del encoder con la senal B1
-pin_encoderB = 16
+pin_encoderB = 36
 # Variables de conteo de flancos de encoders
 counter = 0
 # Variable referencia contador ultimo calculo
