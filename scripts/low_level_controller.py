@@ -135,8 +135,8 @@ def calcularVelocidadRuedas():
     refContadorA = contadorA
     refContadorB = contadorB
     refTiempo = tiempoNuevo
-    velActA = (flancosA/tiempo)*(math.pi/600)*radioRueda
-    velActB = (flancosB/tiempo)*(math.pi/600)*radioRueda
+    velActA = (flancosA/tiempo)*(math.pi/72)*radioRueda
+    velActB = (flancosB/tiempo)*(math.pi/72)*radioRueda
     return tiempo
 
 
@@ -157,7 +157,7 @@ def aplicarControlBajoNivel(time):
 
     pwmA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
     pwmB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
-    
+
     if velRefA == 0 or abs(pwmA) < 1:
         pwmA = 0
     if velRefB == 0 or abs(pwmB) < 1:
