@@ -67,10 +67,10 @@ def test_driver_encoder():
             actual_duty_cycle = duty_cycle
         speed = measure_speed()
         data.append([reference_time-start_time, speed, actual_duty_cycle])
-        print("Speed: " + str(speed) + " mm/s")
+        #print("Speed: " + str(speed) + " mm/s")
         rate.sleep()
     # print(data[0:3])
-    with open('../Caracterizacion rueda1 (izquierda).csv', 'w') as file:
+    with open('../Caracterizacion rueda 1 (izquierda).csv', 'w') as file:
         writer = csv.writer(file)
         writer.writerows(data)
     print("Stopped")
