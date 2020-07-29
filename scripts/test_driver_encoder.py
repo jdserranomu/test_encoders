@@ -67,7 +67,7 @@ def test_driver_encoder():
             actual_duty_cycle = duty_cycle
         speed = measure_speed()
         data.append([reference_time-start_time, speed, actual_duty_cycle])
-        # print("Speed: " + str(speed) + " mm/s")
+        print("Speed: " + str(speed) + " mm/s")
         rate.sleep()
     # print(data[0:3])
     with open('data.csv', 'w') as file:
@@ -85,7 +85,7 @@ def measure_speed():
     diff_time = new_time - reference_time
     reference_counter = counter
     reference_time = new_time
-    speed = (diff_flanks/diff_time)*(math.pi/600)*r
+    speed = (diff_flanks/diff_time)*(math.pi/72)*r
     return speed
 
 
