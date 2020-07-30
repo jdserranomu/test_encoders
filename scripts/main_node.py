@@ -50,9 +50,8 @@ def createMap():
         positionsMap.append(pos)
 def leviathan():
     createMap()
-    rospy.init_node('nodoPrincipal', anonymous=True)  # inicializa el nodo
-    pubEstado = rospy.Publisher('estado', Int32, queue_size=10)
-    pubEstado.publish(0)  # Aca publica que esta esperando ack_service 0
+    rospy.init_node('main_node', anonymous=True)  # inicializa el nodo
+
 
     try:
 
@@ -72,7 +71,7 @@ def leviathan():
         rospy.loginfo("Esperando terminar control")
         while not esperarTerminarRecorrido:
             pass
-        pubEstado.publish(4)
+
 
 
 
