@@ -7,7 +7,7 @@ import sys
 import csv
 
 # Es la tasa en Hertz (Hz) del nodo.
-h = 30
+h = 20
 # Variable con el primer pin que va al driver para controlar el motor A.
 pin_driver1 = 11
 # Variable con el segundo pin que va al driver para controlar el motor A.
