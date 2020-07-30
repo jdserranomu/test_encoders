@@ -47,16 +47,7 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * uncomment the generate_messages entry below
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
-add_message_files(
-  FILES
-  Obstacle.msg
-  Covariance.msg
-)
 
-add_service_files(
-  FILES
-  StartService.srv
-)
 ## Generate messages in the 'msg' folder
 # add_message_files(
 #   FILES
