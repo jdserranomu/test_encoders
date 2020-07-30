@@ -8,8 +8,8 @@ from std_msgs.msg import String
 from geometry_msgs.msg import Pose
 #from master_msgs_iele3338.msg import Obstacle
 #from master_msgs_iele3338.srv import StartService, EndService
-from test_encoders.srv import StartService
-from test_encoders.msg import *
+from test_encoders/srv import StartService
+from test_encoders/msg import *
 
 import os
 
