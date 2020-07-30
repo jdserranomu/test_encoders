@@ -1,5 +1,5 @@
 <launch>
-  <node pkg="test_encoders" type="nodoPrincipal.py" name="main_node" />
+  <node pkg="test_encoders" type="main_node.py" name="nodoPrincipal" />
   <node pkg="proyectoFinal" type="control.py" name="nodo_control"/>
   <node pkg="proyectoFinal" type="odometry_node.py" name="nodo_odometria"/>
   <node pkg="proyectoFinal" type="low_level_controller.py" name="nodo_control_encoder"/>
