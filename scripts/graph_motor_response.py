@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 data = []
-with open('Caracterizacion rueda 1 (izquierda) prueba.csv') as csv_file:
+with open('../Caracterizacion rueda 2 (derecha) 2.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line0 = True
     for row in csv_reader:
