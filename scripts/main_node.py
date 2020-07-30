@@ -50,7 +50,7 @@ def createMap():
         positionsMap.append(pos)
 def leviathan():
     createMap()
-    rospy.init_node('main_node', anonymous=True)  # inicializa el nodo
+    rospy.init_node('nodoPrincipal', anonymous=True)  # inicializa el nodo
 
 
     try:
