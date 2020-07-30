@@ -49,7 +49,7 @@ def createMap():
         pos.orientation.w=0
         positionsMap.append(pos)
 def leviathan():
-
+    createMap()
     rospy.init_node('nodoPrincipal', anonymous=True)  # inicializa el nodo
     pubEstado = rospy.Publisher('estado', Int32, queue_size=10)
     pubEstado.publish(0)  # Aca publica que esta esperando ack_service 0
@@ -82,6 +82,7 @@ def leviathan():
 
 def start_service(start,end,n_obs,obs):
     global positionsMap
+ 
     startS=StartService()
     startS.start=positionsMap[start]
     startS.goal=positionsMap[end]
