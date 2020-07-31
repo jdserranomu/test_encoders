@@ -145,9 +145,9 @@ def aplicarControlBajoNivel(time):
     errorA = velRefA - velActA
     errorB = velRefB - velActB
     integradorA.append(errorA)
-    integradorA = integradorA[-100:]
+    integradorA = integradorA[-1000:]
     integradorB.append(errorB)
-    integradorB = integradorB[-100:]
+    integradorB = integradorB[-1000:]
     integralA = sum(integradorA) * time
     integralB = sum(integradorB) * time
     derivadaErrorA = (errorA-errorAnteriorA)/time
