@@ -123,9 +123,9 @@ def applyLowLevelControl(time):
     errorA = desiredSpeedA - currentSpeedA
     errorB = desiredSpeedB - currentSpeedB
     integrandA.append(errorA)
-    integrandA = integrandA[-10:]
+    integrandA = integrandA[-10000:]
     integrandB.append(errorB)
-    integrandB = integrandB[-10:]
+    integrandB = integrandB[-10000:]
     integralA = sum(integrandA) * time
     integralB = sum(integrandB) * time
     derivativeErrorA = (errorA-lastErrorA)/time
