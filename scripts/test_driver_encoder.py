@@ -85,7 +85,7 @@ def measure_speed():
     diff_time = new_time - reference_time
     reference_counter = counter
     reference_time = new_time
-    speed = (diff_flanks/diff_time)*(math.pi/72)*r
+    speed = (diff_flanks/diff_time)*(math.pi/602.22)*r
     return speed
 
 
