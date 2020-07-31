@@ -135,8 +135,8 @@ def calcularVelocidadRuedas():
     refContadorA = contadorA
     refContadorB = contadorB
     refTiempo = tiempoNuevo
-    velActA = (flancosA/tiempo)*(math.pi/600)*radioRueda
-    velActB = (flancosB/tiempo)*(math.pi/600)*radioRueda
+    velActA = (flancosA/tiempo)*(math.pi/72)*radioRueda
+    velActB = (flancosB/tiempo)*(math.pi/72)*radioRueda
     return tiempo
 
 
