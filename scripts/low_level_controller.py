@@ -52,12 +52,12 @@ calculando = False
 # Radio de las llantas en metros
 r = (29.3/2)
 # Variables de control PI
-kpA = 0.3 #Antes 0.2
-kiA = 63.4
-kdA = 0.0009
-kpB = 0.1 #Antes 0.2
-kiB = 76.4
-kdB = 0.0016
+kpA = 0.2 # 0.3 #Antes 0.2
+kiA = 0.000001 # 63.4
+kdA = 0.01 # 0.0009
+kpB = 0.4 # 0.1 #Antes 0.2
+kiB = 0.000001 # 76.4
+kdB = 0.01 # 0.0016
 # Acumulacion de error para integrador
 integradorA = []
 integradorB = []
@@ -155,8 +155,20 @@ def aplicarControlBajoNivel(time):
     errorAnteriorA = errorA
     errorAnteriorB = errorB
 
+    #errorSignalA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
+    #errorSignalB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
+    #if abs(errorSignalA) < .1:
+    #    errorSignalA = 0
+    #if abs(errorSignalB) < .1:
+    #    errorSignalB = 0
+
     pwmA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
     pwmB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
+
+    #pwmA = pwmA + errorSignalA
+    #pwmB = pwmB + errorSignalB
+    #pwmA = velActA * (10/(math.pi*radioRueda))+errorSignalA
+    #pwmB = velActB * (10/(math.pi*radioRueda))+errorSignalB
 
     if velRefA == 0 or abs(pwmA) < 1:
         pwmA = 0
