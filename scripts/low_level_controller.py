@@ -155,20 +155,20 @@ def aplicarControlBajoNivel(time):
     errorAnteriorA = errorA
     errorAnteriorB = errorB
 
-    #errorSignalA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
-    #errorSignalB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
-    #if abs(errorSignalA) < .1:
-    #    errorSignalA = 0
-    #if abs(errorSignalB) < .1:
-    #    errorSignalB = 0
+    errorSignalA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
+    errorSignalB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
+    if abs(errorSignalA) < .1:
+        errorSignalA = 0
+    if abs(errorSignalB) < .1:
+        errorSignalB = 0
 
-    pwmA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
-    pwmB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
+    # pwmA = kpA * errorA + kiA * integralA + kdA * derivadaErrorA
+    # pwmB = kpB * errorB + kiB * integralB + kdB * derivadaErrorB
 
-    #pwmA = pwmA + errorSignalA
-    #pwmB = pwmB + errorSignalB
-    #pwmA = velActA * (10/(math.pi*radioRueda))+errorSignalA
-    #pwmB = velActB * (10/(math.pi*radioRueda))+errorSignalB
+    pwmA = pwmA + errorSignalA
+    pwmB = pwmB + errorSignalB
+    # pwmA = velActA * (10/(math.pi*radioRueda))+errorSignalA
+    # pwmB = velActB * (10/(math.pi*radioRueda))+errorSignalB
 
     if velRefA == 0 or abs(pwmA) < 1:
         pwmA = 0
