@@ -8,13 +8,13 @@ from std_msgs.msg import String
 from geometry_msgs.msg import Pose
 #from master_msgs_iele3338.msg import Obstacle
 #from master_msgs_iele3338.srv import StartService, EndService
-from test_encoders.srv import StartService, TerminarRecorrido
+from test_encoders.srv import StartService, TerminarRecorrido, StartServiceRequest
 from test_encoders.msg import Obstacle
 
 import os
 
 #Variable con toda la informacion del escenario
-escenario = StartService()
+escenario = StartServiceRequest()
 # Posicion de inicio del robot
 start = Pose()
 # Posicion final a la que se quiere llegar
@@ -83,7 +83,7 @@ def leviathan():
 def start_service(start,end,n_obs,obs):
     global positionsMap,escenario
  
-    startS=StartService()
+    startS=StartServiceRequest()
     startS.start=positionsMap[start]
     startS.goal=positionsMap[end]
     startS.n_obstacles=n_obs
