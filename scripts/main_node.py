@@ -90,9 +90,11 @@ def start_service(start,end,n_obs,obs):
     startS.obstacles=obs
 
     escenario = startS
+    print(type(escenario))
     start = startS.start
     goal = startS.goal
     n_obstacles = startS.n_obstacles
+
     obstacles_array = startS.obstacles
 
 
