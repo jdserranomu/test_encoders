@@ -31,7 +31,7 @@ g = nx.Graph()
 # Distancia entre centro de cuadriculas, 10 debe ser divisible por esta distancia
 distanciaCuadricula = 80  #5  # .8 #1
 # Numero de cuadriculas de la escena seleccionada
-n = int(2500/distanciaCuadricula)
+n = int(2000/distanciaCuadricula)
 # Arreglo con la informacion de cada una de las casillas
 casillas = []
 # Posicion actual del robot, debe actualizarse por el topico
