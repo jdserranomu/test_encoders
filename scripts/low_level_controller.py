@@ -5,6 +5,7 @@ import time
 import math
 import sys
 from std_msgs.msg import Float32MultiArray
+from test_encoders.srv import StartService
 
 # Es la tasa en Hertz (Hz) del nodo.
 h = 10
@@ -75,6 +76,7 @@ satCicloUtil = 60
 errorAnteriorA = 0
 errorAnteriorB = 0
 
+empezar = False
 
 def setPins():
     global pA1, pA2, pB1, pB2
@@ -109,7 +111,10 @@ def setPins():
 def controlBajoNivel():
     global pub, pubVelsAct
     rospy.init_node('low_level_controller', anonymous=True)
+    s = rospy.Service('iniciar_encoders', StartService, handle_iniciar_encoders)
 
+    while not empezar:
+        pass
     rospy.Subscriber('desired_speed', Float32MultiArray, handle_velocidad_deseada)
     pub = rospy.Publisher('current_speed', Float32MultiArray, queue_size=10)
     rate = rospy.Rate(h)
@@ -293,6 +298,11 @@ def sumarFlancoB2(channel):
         else:
             contadorB = contadorB + 1
 
+
+def handle_iniciar_encoders(req):
+    global empezar
+    empezar = True
+    return []
 
 if __name__ == '__main__':
     try:
