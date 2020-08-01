@@ -52,12 +52,12 @@ calculando = False
 # Radio de las llantas en metros
 r = (29.3/2)
 # Varia bles de control PI
-kpA = 0.01 # 0.3 #Antes 0.2
+kpA = 0.03 # 0.3 #Antes 0.2
 kiA = 0 # 63.4
-kdA = 0.0008 # 0.0009
-kpB = 0.01 # 0.1 #Antes 0.2
+kdA = 0.0009 # 0.0009
+kpB = 0.03 # 0.1 #Antes 0.2
 kiB = 0 # 76.4
-kdB = 0.0008 # 0.0016
+kdB = 0.0009 # 0.0016
 # Acumulacion de error para integrador
 integradorA = []
 integradorB = []
@@ -114,17 +114,23 @@ def controlBajoNivel():
     pub = rospy.Publisher('actual_velocity', Float32MultiArray, queue_size=10)
     rate = rospy.Rate(h)
     setPins()
+    cont=0
     while not rospy.is_shutdown():
         time = calcularVelocidadRuedas()
         aplicarControlBajoNivel(time)
         pubVelsAct.data = [velActA, velActB]
         pub.publish(pubVelsAct)
+	if cont==30:
+            cont=0
+            print("vel A:"+str(velActA)+" vel B:"+str(velActB))
+	cont=cont+1
+	
 
 
         rate.sleep()
     apagar()
 
-
+ 
 
 def calcularVelocidadRuedas():
     global velActA, velActB, refContadorA, refContadorB, refTiempo
@@ -163,7 +169,7 @@ def aplicarControlBajoNivel(time):
      #   errorSignalB = 0
 
 
-    pwmA =pwmA+ kpA * errorA + kiA * integralA + kdA * derivadaErrorA
+    pwmA =pwmA+kpA * errorA + kiA * integralA + kdA * derivadaErrorA
     pwmB = pwmB+kpB * errorB + kiB * integralB + kdB * derivadaErrorB
 
     #pwmA = pwmA + errorSignalA
