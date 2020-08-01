@@ -71,7 +71,7 @@ def inicializar():
     global pubPos, pubCov, t
     pubPos = rospy.Publisher('robot_position', Pose, queue_size = 10)
     pubCov = rospy.Publisher('robot_uncertainty', Covariance, queue_size = 10)
-    rospy.Subscriber('velocidad_actual', Float32MultiArray, actualizar)
+    rospy.Subscriber('current_speed', Float32MultiArray, actualizar)
     t = [time.time(), time.time()]
 
 def actualizar(msg):

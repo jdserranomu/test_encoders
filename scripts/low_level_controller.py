@@ -110,8 +110,8 @@ def controlBajoNivel():
     global pub, pubVelsAct
     rospy.init_node('low_level_controller', anonymous=True)
 
-    rospy.Subscriber('desired_velocity', Float32MultiArray, handle_velocidad_deseada)
-    pub = rospy.Publisher('actual_velocity', Float32MultiArray, queue_size=10)
+    rospy.Subscriber('desired_speed', Float32MultiArray, handle_velocidad_deseada)
+    pub = rospy.Publisher('current_speed', Float32MultiArray, queue_size=10)
     rate = rospy.Rate(h)
     setPins()
     cont=0

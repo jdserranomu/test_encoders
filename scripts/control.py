@@ -93,7 +93,7 @@ def control():
 
 
     # Se crea referencia a topico para publicar velocidad de los motores
-    pubMot = rospy.Publisher('velocidad_deseada', Float32MultiArray, queue_size=10)
+    pubMot = rospy.Publisher('desired_speed', Float32MultiArray, queue_size=10)
     # Se crea el servicio que provee el nodo para recibir parametros de informacion
     s = rospy.Service('iniciar_recorrido', StartService, handle_iniciar_recorrido)
     # Se espera a que se publique por primera vez a traves del topico preguntarCasillas
