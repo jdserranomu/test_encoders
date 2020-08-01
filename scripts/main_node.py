@@ -14,7 +14,7 @@ from test_encoders.msg import *
 import os
 
 #Variable con toda la informacion del escenario
-escenario = None
+escenario = StartService()
 # Posicion de inicio del robot
 start = Pose()
 # Posicion final a la que se quiere llegar
