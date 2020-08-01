@@ -8,8 +8,8 @@ from std_msgs.msg import String
 from geometry_msgs.msg import Pose
 #from master_msgs_iele3338.msg import Obstacle
 #from master_msgs_iele3338.srv import StartService, EndService
-from test_encoders.srv import StartService
-from test_encoders.msg import *
+from test_encoders.srv import StartService, TerminarRecorrido
+from test_encoders.msg import Obstacle
 
 import os
 
@@ -90,7 +90,6 @@ def start_service(start,end,n_obs,obs):
     startS.obstacles=obs
 
     escenario = startS
-    print(type(escenario))
     start = startS.start
     goal = startS.goal
     n_obstacles = startS.n_obstacles
