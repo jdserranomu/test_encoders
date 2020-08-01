@@ -61,7 +61,7 @@ def leviathan():
         rospy.wait_for_service('iniciar_encoders')
 
         iniciar_service = rospy.ServiceProxy('iniciar_recorrido', StartService)  # Crea el objeto referente al servicio
-        print(type(escenario))
+
         iniciar_service(escenario)
         iniciar_odometria = rospy.ServiceProxy('iniciar_odometria', StartService)
         iniciar_odometria(escenario)
@@ -90,6 +90,7 @@ def start_service(start,end,n_obs,obs):
     startS.obstacles=obs
 
     escenario = startS
+    print(type(escenario))
     start = startS.start
     goal = startS.goal
     n_obstacles = startS.n_obstacles
