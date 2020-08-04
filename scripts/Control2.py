@@ -276,7 +276,7 @@ def comparadorAngulos(angulo1, angulo2):
 # Crea los arcos entre los vertices creados en el grafo, solo es necesario revisar los nodos que pueden ser vecinos, en
 # de que ambos esten vacios genera el arco.
 def creadorArcos():
-    global n m
+    global n,m
     # El ciclo revisa cada uno de los nodos del grafo
     for i in range(0, n*m):
         # Se revisa primero si la casilla actual esta libre de obstaculos, de lo contrario no es necesario generar arcos
