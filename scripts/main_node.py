@@ -55,7 +55,7 @@ def leviathan():
 
     try:
 
-        start_service(1,2,0,[])
+        start_service(1,6,0,[])
         rospy.wait_for_service('iniciar_recorrido')
         rospy.wait_for_service('iniciar_odometria')
         rospy.wait_for_service('iniciar_encoders')
@@ -65,7 +65,7 @@ def leviathan():
         iniciar_service(escenario)
         iniciar_odometria = rospy.ServiceProxy('iniciar_odometria', StartService)
         iniciar_odometria(escenario)
-        iniciar_encoders = rospy.ServiceProxy('iniciar_encoders', StartService)
+        iniciar_encoders = ro-spy.ServiceProxy('iniciar_encoders', StartService)
         iniciar_encoders(escenario)
         # rospy.Subscriber ('termino_recorrido', Int32, handle_terminar_recorrido)
         s1=rospy.Service('terminar_control', TerminarRecorrido, handle_terminar_recorrido)
