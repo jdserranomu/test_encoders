@@ -213,7 +213,7 @@ def heuristic(i, j):
 
 # Busca la casilla mas cercana para dos coordenadas en la distribucion
 def numCasillas(x, y):
-    global n m
+    global n,m
     # Inicializa la distancia minima en infinito y el indice de la casilla en -1
     dist = float('Inf')
     indice = -1
