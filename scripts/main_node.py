@@ -55,7 +55,7 @@ def leviathan():
 
     try:
 
-        start_service(4,5,0,[])
+        start_service(7,1,0,[])
         rospy.wait_for_service('iniciar_recorrido')
         rospy.wait_for_service('iniciar_odometria')
         rospy.wait_for_service('iniciar_encoders')
