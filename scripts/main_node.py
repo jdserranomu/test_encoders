@@ -85,7 +85,7 @@ def start_service(start,end,n_obs,obs):
     pos = Pose()
     pos.position.x = 250 / 2
     pos.position.y = 1000 - 250 / 2
-    pos.orientation.w = 0
+    pos.orientation.w = 90
 
     pos2 = Pose()
     pos2.position.x =  250 / 2
