@@ -54,16 +54,8 @@ def leviathan():
 
 
     try:
-        pos = Pose()
-        pos.position.x = 250/2
-        pos.position.y = 1000 - 250/ 2
-        pos.orientation.w = 0
 
-        pos = Pose()
-        pos.position.x = 2000-250/2
-        pos.position.y = 250/2
-        pos.orientation.w = 0
-        start_service(pos,1,0,[])
+        start_service(5,1,0,[])
         rospy.wait_for_service('iniciar_recorrido')
         rospy.wait_for_service('iniciar_odometria')
         rospy.wait_for_service('iniciar_encoders')
@@ -90,12 +82,21 @@ def leviathan():
 
 def start_service(start,end,n_obs,obs):
     global positionsMap,escenario
- 
+    pos = Pose()
+    pos.position.x = 250 / 2
+    pos.position.y = 1000 - 250 / 2
+    pos.orientation.w = 0
+
+    pos2 = Pose()
+    pos2.position.x = 2000 - 250 / 2
+    pos2.position.y = 250 / 2
+    pos2.orientation.w = 0
     startS=StartServiceRequest()
-    startS.start=positionsMap[start]
-    startS.goal=positionsMap[end]
+    startS.start=pos
+    startS.goal=pos2
     startS.n_obstacles=n_obs
     startS.obstacles=obs
+
 
     escenario = startS
     start = startS.start
