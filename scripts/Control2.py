@@ -56,7 +56,7 @@ l = 50  # milimetros
 # Es la variable donde se almacena el valor de p (rho) que equivale a la distancia entre el punto actual y el final.
 p = 0
 # Es un umbral que se define para indicarle al robot cuando llega al punto final.
-umbralP = 195 # distanciaCuadricula/2    ############# CAMBIO ###########
+umbralP = 98 #195 distanciaCuadricula/2    ############# CAMBIO ###########
 # Es una variable booleana que indica que el robot ha llegado al punto final.
 arrivedP = False
 # Es la variable donde se guarda la distancia en x entre el punto actual y final.
@@ -148,7 +148,7 @@ def control():
                 arrivedP = False
                 posInter = posicionFinal
                 # Se modifica el umbral para que de igual forma llega mas cercano al punto final
-                umbralP = 250#400   ######## CAMBIO ###############
+                umbralP = 125#250 400   ######## CAMBIO ###############
             # Entra al siguiente condicional en caso de que halla llegado a un punto intermedio de la ruta
             elif iRuta < len(ruta)-1:
                 aux = Posicion(casillas[ruta[iRuta+1]].x, casillas[ruta[iRuta+1]].y, math.atan2(casillas[ruta[iRuta+1]].y-casillas[ruta[iRuta]].y, casillas[ruta[iRuta+1]].x-casillas[ruta[iRuta]].x))
