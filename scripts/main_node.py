@@ -89,7 +89,7 @@ def start_service(start,end,n_obs,obs):
 
     pos2 = Pose()
     pos2.position.x =  250 / 2
-    pos2.position.y = 1000 - 250 -250/2
+    pos2.position.y = 1000 - 750 -250/2
     pos2.orientation.w = 0
     startS=StartServiceRequest()
     startS.start=pos
