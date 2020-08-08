@@ -36,9 +36,9 @@ def createMap():
     tam=250
     cte=500
     global positionsMap
-    for i in range(4):
+    for i in range(8):
         pos=Pose()
-        pos.position.x=cte*i+tam/2
+        pos.position.x=tam*i+tam/2
         pos.position.y=tam/2
         pos.orientation.w=0
         positionsMap.append(pos)
@@ -54,8 +54,16 @@ def leviathan():
 
 
     try:
+        pos = Pose()
+        pos.position.x = 250/2
+        pos.position.y = 1000 - 250/ 2
+        pos.orientation.w = 0
 
-        start_service(5,1,0,[])
+        pos = Pose()
+        pos.position.x = 2000-250/2
+        pos.position.y = 250/2
+        pos.orientation.w = 0
+        start_service(pos,1,0,[])
         rospy.wait_for_service('iniciar_recorrido')
         rospy.wait_for_service('iniciar_odometria')
         rospy.wait_for_service('iniciar_encoders')
